@@ -10,6 +10,10 @@
 # 8 points: J ×1, X ×1
 # 10 points: Q ×1, Z ×1
 
+#Define Variables - if needing to be pre-defined
+New-Variable TileExists -Scope Global -Value $false -Description "Does my Tile Exist? (Boolean)"
+
+# Hashtag - HashTable
 $^=@{HowMany=2;Score=0}
 $E=@{HowMany=12;Score=1}
 $A=@{HowMany=9;Score=1}
@@ -38,6 +42,7 @@ $X=@{HowMany=1;Score=8}
 $Q=@{HowMany=1;Score=10}
 $Z=@{HowMany=1;Score=10}
 
+# Dont look at the green below - first attempt.
 #$ScrabbleBag=@(A..Z;^)
 #$rnd=@(Get-Random -InputObject $ScrabbleBag -Count 7)
 #Function RndCheck{
@@ -57,6 +62,8 @@ $Z=@{HowMany=1;Score=10}
 #		}
 #	}
 #}
+
+# Function to get a random letter and return a single one
 Function RandomLetter {
 	New-Variable ScrabbleBag -Description "A Variable to hold my Scrabble Tiles"
 	New-Variable GrabATile -Scope Global -Description "Grab a Tile out of my Scrabble Bag"
@@ -65,6 +72,7 @@ Function RandomLetter {
 	Return $GrabATile
 }
 
+# Function to find out if the random letter chosen is in my Scrabble Bag
 Function IsLetterInBag {
 	New-Variable ConvertToCharacter
 	Set-Variable ConvertToCharacter -Value [Char]::Parse($GrabATile)
@@ -134,6 +142,20 @@ Function IsLetterInBag {
 		Set-Variable TileExists -Value $false
 		Return $TileExists
 	}
+}
+
+# Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
+While($TileExists -eq $false){
+	RandomLetter
+	IsLetterInBag
+}
+
+#Define an array
+$ScrabbleRack = @()
+
+# Create Statement to ensure that my array doesnt exceed 7 items
+While($ScrabbleRack -ne 7){
+
 }
 
 
