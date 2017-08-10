@@ -68,27 +68,30 @@ Function TileCount{
 
 # Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
 $ScrabbleBagTiles = @(94) + 65..90
-$TileExists = $false
-While($TileExists -eq $false){
-	$GrabATile = RandomLetter $ScrabbleBagTiles
-	$TileExists = IsLetterInBag $GrabATile
-}
+
+While($HowMany -notcontains 0){
+
+    $TileExists = $false
+    While($TileExists -eq $false){
+	    $GrabATile = RandomLetter $ScrabbleBagTiles
+	    $TileExists = IsLetterInBag $GrabATile
+    }
 
 #Define an array
-$ScrabbleRack = @()
+    $ScrabbleRack = @()
 
 # Create Statement to ensure that my array doesnt exceed 7 items
-If($ScrabbleRack.Count -ne 7){
-	$RackCharacterCovert = [Char]$GrabATile
-    $ScrabbleRack += $RackCharacterCovert
-}
+    If($ScrabbleRack.Count -ne 7){
+	    $RackCharacterCovert = [Char]$GrabATile
+        $ScrabbleRack += $RackCharacterCovert
+    }
 
 # Display the Information 
-If($ScrabbleRack.Count -eq 7){
+    If($ScrabbleRack.Count -eq 7){
+
+    }
 
 }
-
-
 
 $ScrabbleRack
 $HowMany
