@@ -1,5 +1,5 @@
 ﻿<#..
-# Script.ps1
+# Scrabble.ps1
 # Scrabble table of points and tile amounts
 # 2 blank tiles (scoring 0 points)
 # 1 point: E ×12, A ×9, I ×9, O ×8, N ×6, R ×6, T ×6, L ×4, S ×4, U ×4
