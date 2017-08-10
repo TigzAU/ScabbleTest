@@ -27,6 +27,7 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Scrabblev2.ps1" />
     <Compile Include="Scrabble.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
