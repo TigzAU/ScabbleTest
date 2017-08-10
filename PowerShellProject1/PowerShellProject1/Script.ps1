@@ -1,4 +1,4 @@
-﻿#
+﻿<#..
 # Script.ps1
 # Scrabble table of points and tile amounts
 # 2 blank tiles (scoring 0 points)
@@ -9,9 +9,10 @@
 # 5 points: K ×1
 # 8 points: J ×1, X ×1
 # 10 points: Q ×1, Z ×1
+..#>
 
 #Define Variables - if needing to be pre-defined
-New-Variable TileExists -Scope Global -Value $false -Description "Does my Tile Exist? (Boolean)"
+#New-Variable TileExists -Scope Global -Value $false -Description "Does my Tile Exist? (Boolean)"
 
 # Hashtag - HashTable
 $^=@{HowMany=2;Score=0}
@@ -42,7 +43,7 @@ $X=@{HowMany=1;Score=8}
 $Q=@{HowMany=1;Score=10}
 $Z=@{HowMany=1;Score=10}
 
-# Dont look at the green below - first attempt.
+<#.. Dont look at the green below - first attempt.
 #$ScrabbleBag=@(A..Z;^)
 #$rnd=@(Get-Random -InputObject $ScrabbleBag -Count 7)
 #Function RndCheck{
@@ -62,13 +63,17 @@ $Z=@{HowMany=1;Score=10}
 #		}
 #	}
 #}
+..#>
 
 # Function to get a random letter and return a single one
 Function RandomLetter {
-	New-Variable ScrabbleBag -Description "A Variable to hold my Scrabble Tiles"
-	New-Variable GrabATile -Scope Global -Description "Grab a Tile out of my Scrabble Bag"
-	Set-Variable ScrabbleBag -Value 65..90,94
-	Set-variable GrabATile -Value Get-Random -InputObject $ScrabbleBag
+	#New-Variable ScrabbleBag -Description "A Variable to hold my Scrabble Tiles"
+	#New-Variable GrabATile -Scope Global -Description "Grab a Tile out of my Scrabble Bag"
+	#Set-Variable ScrabbleBag -Value 65..90,94
+	#Set-variable GrabATile -Value Get-Random -InputObject $ScrabbleBag
+	
+	$ScrabbleBag = @(94) + 65..90
+	$GrabATile = Get-Random -InputObject $ScrabbleBag
 	Return $GrabATile
 }
 
