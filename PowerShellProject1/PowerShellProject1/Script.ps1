@@ -79,9 +79,9 @@ Function RandomLetter {
 
 # Function to find out if the random letter chosen is in my Scrabble Bag
 Function IsLetterInBag {
-	New-Variable ConvertToCharacter
-	Set-Variable ConvertToCharacter -Value [Char]::Parse($GrabATile)
-	Switch ($ConvertToCharacter){
+	#New-Variable ConvertToCharacter
+	#Set-Variable ConvertToCharacter -Value [Char]::Parse($GrabATile)
+	<#..Switch ($ConvertToCharacter){
 		A{Set-Variable TilesLeft -Value $A.HowMany}
 		B{Set-Variable TilesLeft -Value $B.HowMany}
 		C{Set-Variable TilesLeft -Value $C.HowMany}
@@ -109,10 +109,12 @@ Function IsLetterInBag {
 		Y{Set-Variable TilesLeft -Value $Y.HowMany}
 		Z{Set-Variable TilesLeft -Value $Z.HowMany}
 		^{Set-Variable TilesLeft -Value $^.HowMany}
-	}
-	New-Variable TileExists
+	}..#>
+	$ConvertToCharacter = [Char]::Parse($GrabATile)
+	$TilesLeft = (Get-Variable $ConvertToCharacter -ValueOnly).HowMany
+	#New-Variable TileExists
 	If($TilesLeft -ne 0){
-		Switch ($ConvertToCharacter){
+		<#..Switch ($ConvertToCharacter){
 			A{$A.HowMany = $A.HowMany - 1}
 			B{$B.HowMany = $B.HowMany - 1}
 			C{$C.HowMany = $C.HowMany - 1}
@@ -140,12 +142,15 @@ Function IsLetterInBag {
 			Y{$Y.HowMany = $Y.HowMany - 1}
 			Z{$Z.HowMany = $Z.HowMany - 1}
 			^{$^.HowMany = $^.HowMany - 1}
-		}
-		Set-Variable TileExists -Value $true
-		Return $TileExists
+		}..#>
+		Get-Variable $ConvertToCharacter --
+		#Set-Variable TileExists -Value $true
+		#Return $TileExists
+		Return $true
 	}Else{
-		Set-Variable TileExists -Value $false
-		Return $TileExists
+		#Set-Variable TileExists -Value $false
+		#Return $TileExists
+		Return $false
 	}
 }
 
