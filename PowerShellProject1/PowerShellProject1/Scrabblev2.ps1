@@ -40,8 +40,6 @@ $X=@{HowMany=1;Score=8}
 $Q=@{HowMany=1;Score=10}
 $Z=@{HowMany=1;Score=10}
 
-
-
 # Function to get a random letter and return a single one
 Function RandomLetter ($ScrabbleBag) {
 	$GrabATile = Get-Random -InputObject $ScrabbleBag
@@ -59,38 +57,31 @@ Function IsLetterInBag ($GrabbedTile) {
 		Return $false
 	}
 }
-Function TileCount{
-    Foreach($Tile in $ScrabbleBagTiles){
-	    $HowMany = @(Get-Variable $Tile)
-    }
-    Return $HowMany
-}
 
 # Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
 $ScrabbleBagTiles = @(94) + 65..90
-
-While($HowMany -notcontains 0){
-
-    $TileExists = $false
-    While($TileExists -eq $false){
-	    $GrabATile = RandomLetter $ScrabbleBagTiles
-	    $TileExists = IsLetterInBag $GrabATile
-    }
+$TileExists = $false
+While($TileExists -eq $false){
+	$GrabATile = RandomLetter $ScrabbleBagTiles
+	$TileExists = IsLetterInBag $GrabATile
+}
 
 #Define an array
-    $ScrabbleRack = @()
+$ScrabbleRack = @()
 
 # Create Statement to ensure that my array doesnt exceed 7 items
-    If($ScrabbleRack.Count -ne 7){
-	    $RackCharacterCovert = [Char]$GrabATile
-        $ScrabbleRack += $RackCharacterCovert
-    }
+If($ScrabbleRack.Count -ne 7){
+	$RackCharacterCovert = [Char]$GrabATile
+    $ScrabbleRack += $RackCharacterCovert
+}
 
 # Display the Information 
-    If($ScrabbleRack.Count -eq 7){
-
+If($ScrabbleRack.Count -eq 7){
+    Foreach($Tile in $ScrabbleBagTiles){
+	    $HowMany = @(Get-Variable $Tile)
+        Return $HowMany
     }
-
+    Return $HowMany
 }
 
 $ScrabbleRack
