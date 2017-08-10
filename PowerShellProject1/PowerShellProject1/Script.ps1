@@ -66,19 +66,18 @@ $Z=@{HowMany=1;Score=10}
 ..#>
 
 # Function to get a random letter and return a single one
-Function RandomLetter {
+Function RandomLetter ($ScrabbleBag) {
 	#New-Variable ScrabbleBag -Description "A Variable to hold my Scrabble Tiles"
 	#New-Variable GrabATile -Scope Global -Description "Grab a Tile out of my Scrabble Bag"
 	#Set-Variable ScrabbleBag -Value 65..90,94
 	#Set-variable GrabATile -Value Get-Random -InputObject $ScrabbleBag
 	
-	$ScrabbleBag = @(94) + 65..90
 	$GrabATile = Get-Random -InputObject $ScrabbleBag
 	Return $GrabATile
 }
 
 # Function to find out if the random letter chosen is in my Scrabble Bag
-Function IsLetterInBag {
+Function IsLetterInBag ($GrabbedTile) {
 	#New-Variable ConvertToCharacter
 	#Set-Variable ConvertToCharacter -Value [Char]::Parse($GrabATile)
 	<#..Switch ($ConvertToCharacter){
@@ -110,7 +109,7 @@ Function IsLetterInBag {
 		Z{Set-Variable TilesLeft -Value $Z.HowMany}
 		^{Set-Variable TilesLeft -Value $^.HowMany}
 	}..#>
-	$ConvertToCharacter = [Char]::Parse($GrabATile)
+	$ConvertToCharacter = [Char]::Parse($GrabbedTile)
 	$TilesLeft = (Get-Variable $ConvertToCharacter -ValueOnly).HowMany
 	#New-Variable TileExists
 	If($TilesLeft -ne 0){
@@ -155,17 +154,22 @@ Function IsLetterInBag {
 }
 
 # Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
+$ScrabbleBagTiles = @(94) + 65..90
+$TileExists = $false
 While($TileExists -eq $false){
-	RandomLetter
-	IsLetterInBag
+	$GrabATile = RandomLetter $ScrabbleBagTiles
+	$TileExists = IsLetterInBag $GrabATile
 }
 
 #Define an array
 $ScrabbleRack = @()
 
 # Create Statement to ensure that my array doesnt exceed 7 items
-While($ScrabbleRack -ne 7){
-
+While($ScrabbleRack.Count -ne 7){
+	$ScrabbleRack += $GrabATile
 }
 
-
+$ScrabbleRack
+Foreach($Tile in $ScrabbleBagTiles){
+	Write-Output $Tile
+}
