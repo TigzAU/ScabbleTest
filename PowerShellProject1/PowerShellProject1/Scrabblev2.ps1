@@ -58,31 +58,35 @@ Function IsLetterInBag ($GrabbedTile) {
 	}
 }
 
+#Define an array
+$ScrabbleRack = $null
+$NeededTiles = 7
 # Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
 $ScrabbleBagTiles = @(94) + 65..90
 $TileExists = $false
+Foreach($Scrabble in 1..$NeededTiles){
 While($TileExists -eq $false){
 	$GrabATile = RandomLetter $ScrabbleBagTiles
 	$TileExists = IsLetterInBag $GrabATile
 }
-
-#Define an array
-$ScrabbleRack = @()
+	$RackCharacterCovert = [Char]$GrabATile
+    $ScrabbleRack += "$RackCharacterCovert"
+    $TileExists = $false
+}
 
 # Create Statement to ensure that my array doesnt exceed 7 items
-If($ScrabbleRack.Count -ne 7){
-	$RackCharacterCovert = [Char]$GrabATile
-    $ScrabbleRack += $RackCharacterCovert
-}
+#If($ScrabbleRack.Count -ne 7){
+#	$RackCharacterCovert = [Char]$GrabATile
+#    $ScrabbleRack += $RackCharacterCovert
+#}
 
 # Display the Information 
-If($ScrabbleRack.Count -eq 7){
-    Foreach($Tile in $ScrabbleBagTiles){
-	    $HowMany = @(Get-Variable $Tile)
-        Return $HowMany
-    }
-    Return $HowMany
-}
+#If($ScrabbleRack.Count -eq 7){
+#    Foreach($Tile in $ScrabbleBagTiles){
+#	    $HowMany = @(Get-Variable $Tile)
+#        Return $HowMany
+#    }
+#    Return $HowMany
+#}
 
 $ScrabbleRack
-$HowMany
