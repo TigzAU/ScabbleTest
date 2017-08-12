@@ -74,19 +74,12 @@ While($TileExists -eq $false){
     $TileExists = $false
 }
 
-# Create Statement to ensure that my array doesnt exceed 7 items
-#If($ScrabbleRack.Count -ne 7){
-#	$RackCharacterCovert = [Char]$GrabATile
-#    $ScrabbleRack += $RackCharacterCovert
-#}
-
+$HowManyLeft =@()
 # Display the Information 
-#If($ScrabbleRack.Count -eq 7){
-#    Foreach($Tile in $ScrabbleBagTiles){
-#	    $HowMany = @(Get-Variable $Tile)
-#        Return $HowMany
-#    }
-#    Return $HowMany
-#}
+Foreach($Tile in $ScrabbleBagTiles){
+       $ConvertToLetter = [Char]$Tile
+       $HowManyLeft += ((Get-Variable $ConvertToLetter).Name+" = "+(Get-Variable $ConvertToLetter -ValueOnly).HowMany)
+}
 
-$ScrabbleRack
+Write-Output $ScrabbleRack
+Write-Output $HowManyLeft
