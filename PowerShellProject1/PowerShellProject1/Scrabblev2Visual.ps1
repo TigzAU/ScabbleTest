@@ -95,7 +95,9 @@ Add-Type -AssemblyName System.Drawing
 $ScrabbleForm = New-Object system.Windows.Forms.Form
 $ScrabbleBrush = New-Object Drawing.SolidBrush White
 $scrabblePen = New-Object Drawing.Pen Black
-$ScrabbleForm.Size = New-Object System.Drawing.Size(380,100)  
+$ScrabbleForm.Size = New-Object System.Drawing.Size(380,100)
+$ScrabbleFont = new-object System.Drawing.Font("Verdana", 20) 
+$ScrabbleTBrush = New-Object Drawing.SolidBrush Red   
 $ScrabbleGraphics = $ScrabbleForm.CreateGraphics()
 $ScrabbleForm.Width = 380
 $ScrabbleForm.Height = 360
@@ -112,6 +114,7 @@ $LineH1YStart = 50
 $LineH1XEnd = 50
 $LineH1YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH1XStart, $LineH1YStart, $LineH1XEnd, $LineH1YEnd)
+$ScrabbleGraphics.DrawString($ScrabbleRack[0],$ScrabbleFont,$ScrabbleTBrush, 17, 14)
 $ScrabbleGraphics.FillRectangle($ScrabbleBrush, 60,10,40,40)
 $LineV2XStart = 100
 $LineV2YStart = 10
@@ -123,6 +126,7 @@ $LineH2YStart = 50
 $LineH2XEnd = 100
 $LineH2YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH2XStart, $LineH2YStart, $LineH2XEnd, $LineH2YEnd)
+$ScrabbleGraphics.DrawString($ScrabbleRack[1],$ScrabbleFont,$ScrabbleTBrush, 67, 14)
 $ScrabbleGraphics.FillRectangle($ScrabbleBrush, 110,10,40,40)
 $LineV3XStart = 150
 $LineV3YStart = 10
@@ -133,7 +137,8 @@ $LineH3XStart = 110
 $LineH3YStart = 50
 $LineH3XEnd = 150
 $LineH3YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH3XStart, $LineH3YStart, $LineH3XEnd, $LineH3YEnd)
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH3XStart, $LineH3YStart, $LineH3XEnd, $LineH3YEnd) 
+$ScrabbleGraphics.DrawString($ScrabbleRack[2],$ScrabbleFont,$ScrabbleTBrush, 117, 14)
 $ScrabbleGraphics.FillRectangle($ScrabbleBrush, 160,10,40,40)
 $LineV4XStart = 200
 $LineV4YStart = 10
@@ -145,6 +150,7 @@ $LineH4YStart = 50
 $LineH4XEnd = 200
 $LineH4YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH4XStart, $LineH4YStart, $LineH4XEnd, $LineH4YEnd)
+$ScrabbleGraphics.DrawString($ScrabbleRack[3],$ScrabbleFont,$ScrabbleTBrush, 167, 14)
 $ScrabbleGraphics.FillRectangle($ScrabbleBrush, 210,10,40,40)
 $LineV5XStart = 250
 $LineV5YStart = 10
@@ -156,6 +162,7 @@ $LineH5YStart = 50
 $LineH5XEnd = 250
 $LineH5YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH5XStart, $LineH5YStart, $LineH5XEnd, $LineH5YEnd)
+$ScrabbleGraphics.DrawString($ScrabbleRack[4],$ScrabbleFont,$ScrabbleTBrush, 217, 14)
 $ScrabbleGraphics.FillRectangle($ScrabbleBrush, 260,10,40,40)
 $LineV6XStart = 300
 $LineV6YStart = 10
@@ -167,6 +174,7 @@ $LineH6YStart = 50
 $LineH6XEnd = 300
 $LineH6YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH6XStart, $LineH6YStart, $LineH6XEnd, $LineH6YEnd)
+$ScrabbleGraphics.DrawString($ScrabbleRack[5],$ScrabbleFont,$ScrabbleTBrush, 267, 14)
 $ScrabbleGraphics.FillRectangle($ScrabbleBrush, 310,10,40,40)
 $LineV7XStart = 350
 $LineV7YStart = 10
@@ -178,6 +186,7 @@ $LineH7YStart = 50
 $LineH7XEnd = 350
 $LineH7YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH7XStart, $LineH7YStart, $LineH7XEnd, $LineH7YEnd)
+$ScrabbleGraphics.DrawString($ScrabbleRack[6],$ScrabbleFont,$ScrabbleTBrush, 317, 14)
 }
 )
 $ScrabbleForm.ShowDialog()
