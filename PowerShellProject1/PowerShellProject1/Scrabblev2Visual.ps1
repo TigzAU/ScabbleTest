@@ -120,6 +120,39 @@ $LineH2YStart = 50
 $LineH2XEnd = 100
 $LineH2YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH2XStart, $LineH2YStart, $LineH2XEnd, $LineH2YEnd)
+$ScrabbleGraphics.FillRectangle($ScrabbleBrush, 110,10,40,40)
+$LineV3XStart = 150
+$LineV3YStart = 10
+$LineV3XEnd = 150
+$LineV3YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV3XStart, $LineV3YStart, $LineV3XEnd, $LineV3YEnd)
+$LineH3XStart = 110
+$LineH3YStart = 50
+$LineH3XEnd = 150
+$LineH3YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH3XStart, $LineH3YStart, $LineH3XEnd, $LineH3YEnd)
+$ScrabbleGraphics.FillRectangle($ScrabbleBrush, 160,10,40,40)
+$LineV4XStart = 200
+$LineV4YStart = 10
+$LineV4XEnd = 200
+$LineV4YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV4XStart, $LineV4YStart, $LineV4XEnd, $LineV4YEnd)
+$LineH4XStart = 160
+$LineH4YStart = 50
+$LineH4XEnd = 200
+$LineH4YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH4XStart, $LineH4YStart, $LineH4XEnd, $LineH4YEnd)
+$ScrabbleGraphics.FillRectangle($ScrabbleBrush, 210,10,40,40)
+$LineV5XStart = 250
+$LineV5YStart = 10
+$LineV5XEnd = 250
+$LineV5YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV5XStart, $LineV5YStart, $LineV5XEnd, $LineV5YEnd)
+$LineH5XStart = 210
+$LineH5YStart = 50
+$LineH5XEnd = 250
+$LineH5YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH5XStart, $LineH5YStart, $LineH5XEnd, $LineH5YEnd)
 }
 )
 $ScrabbleForm.ShowDialog()
