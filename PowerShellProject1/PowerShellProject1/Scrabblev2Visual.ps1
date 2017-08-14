@@ -109,6 +109,17 @@ $LineH1YStart = 50
 $LineH1XEnd = 50
 $LineH1YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH1XStart, $LineH1YStart, $LineH1XEnd, $LineH1YEnd)
+$ScrabbleGraphics.FillRectangle($ScrabbleBrush, 60,10,40,40)
+$LineV2XStart = 100
+$LineV2YStart = 10
+$LineV2XEnd = 100
+$LineV2YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV2XStart, $LineV2YStart, $LineV2XEnd, $LineV2YEnd)
+$LineH2XStart = 60
+$LineH2YStart = 50
+$LineH2XEnd = 100
+$LineH2YEnd = 50
+$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH2XStart, $LineH2YStart, $LineH2XEnd, $LineH2YEnd)
 }
 )
 $ScrabbleForm.ShowDialog()
