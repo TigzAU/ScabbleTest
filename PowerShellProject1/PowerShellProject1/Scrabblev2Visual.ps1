@@ -101,9 +101,18 @@ $ScrabbleTBrush = New-Object Drawing.SolidBrush Red
 $ScrabbleGraphics = $ScrabbleForm.CreateGraphics()
 $ScrabbleForm.Width = 380
 $ScrabbleForm.Height = 360
+$LblTile1 = New-Object System.Windows.Forms.Label
+$LblTile1.Height = 40
+$LblTile1.Width = 40
+$LblTile1.Location = New-Object System.Drawing.Size(10,10)
+$LblTile1.BackColor = ([System.Drawing.Color]::White)
+$LblTile1.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
+$LblTile1.Text = $ScrabbleRack[0]
+$LblTile1.TextAlign = "MiddleCenter"
+$LblTile1.Font = $ScrabbleFont
+$LblTile1.ForeColor = ([System.Drawing.Color]::DarkCyan)
 $ScrabbleForm.add_paint(
 {
-$ScrabbleGraphics.FillRectangle($ScrabbleBrush, 10,10,40,40)
 $LineV1XStart = 50
 $LineV1YStart = 10
 $LineV1XEnd = 50
@@ -114,7 +123,6 @@ $LineH1YStart = 50
 $LineH1XEnd = 50
 $LineH1YEnd = 50
 $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH1XStart, $LineH1YStart, $LineH1XEnd, $LineH1YEnd)
-$ScrabbleGraphics.DrawString($ScrabbleRack[0],$ScrabbleFont,$ScrabbleTBrush, 17, 14)
 $ScrabbleGraphics.FillRectangle($ScrabbleBrush, 60,10,40,40)
 $LineV2XStart = 100
 $LineV2YStart = 10
@@ -189,4 +197,5 @@ $ScrabbleGraphics.DrawLine($ScrabblePen, $LineH7XStart, $LineH7YStart, $LineH7XE
 $ScrabbleGraphics.DrawString($ScrabbleRack[6],$ScrabbleFont,$ScrabbleTBrush, 317, 14)
 }
 )
+$ScrabbleForm.Controls.Add($LblTile1)
 $ScrabbleForm.ShowDialog()
