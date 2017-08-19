@@ -1,4 +1,8 @@
-﻿<#..
+﻿$gap = 10
+$width = 40
+$height = 40
+ 
+<#..
 # Scrabble.ps1
 # Scrabble table of points and tile amounts
 # 2 blank tiles (scoring 0 points)
@@ -10,7 +14,7 @@
 # 8 points: J ×1, X ×1
 # 10 points: Q ×1, Z ×1
 ..#>
-
+ 
 # Hashtag - HashTable
 $^=@{HowMany=2;Score=0}
 $E=@{HowMany=12;Score=1}
@@ -39,25 +43,25 @@ $J=@{HowMany=1;Score=8}
 $X=@{HowMany=1;Score=8}
 $Q=@{HowMany=1;Score=10}
 $Z=@{HowMany=1;Score=10}
-
+ 
 # Function to get a random letter and return a single one
 Function RandomLetter ($ScrabbleBag) {
-	$GrabATile = Get-Random -InputObject $ScrabbleBag
-	Return $GrabATile
+       $GrabATile = Get-Random -InputObject $ScrabbleBag
+       Return $GrabATile
 }
-
+ 
 # Function to find out if the random letter chosen is in my Scrabble Bag
 Function IsLetterInBag ($GrabbedTile) {
-	$ConvertToCharacter = [Char]$GrabbedTile
-	$TilesLeft = (Get-Variable $ConvertToCharacter -ValueOnly).HowMany
-	If($TilesLeft -ne 0){
-		(Get-Variable $ConvertToCharacter -ValueOnly).HowMany --
-		Return $true
-	}Else{
-		Return $false
-	}
+       $ConvertToCharacter = [Char]$GrabbedTile
+       $TilesLeft = (Get-Variable $ConvertToCharacter -ValueOnly).HowMany
+       If($TilesLeft -ne 0){
+              (Get-Variable $ConvertToCharacter -ValueOnly).HowMany --
+              Return $true
+       }Else{
+              Return $false
+       }
 }
-
+ 
 #Define an array
 $ScrabbleRack = $null
 $NeededTiles = 7
@@ -66,183 +70,113 @@ $ScrabbleBagTiles = @(94) + 65..90
 $TileExists = $false
 Foreach($Scrabble in 1..$NeededTiles){
 While($TileExists -eq $false){
-	$GrabATile = RandomLetter $ScrabbleBagTiles
-	$TileExists = IsLetterInBag $GrabATile
+       $GrabATile = RandomLetter $ScrabbleBagTiles
+       $TileExists = IsLetterInBag $GrabATile
 }
-	$RackCharacterCovert = [Char]$GrabATile
+       $RackCharacterCovert = [Char]$GrabATile
     $ScrabbleRack += "$RackCharacterCovert"
     $TileExists = $false
 }
-
+ 
 # Create Statement to ensure that my array doesnt exceed 7 items
 #If($ScrabbleRack.Count -ne 7){
-#	$RackCharacterCovert = [Char]$GrabATile
+#      $RackCharacterCovert = [Char]$GrabATile
 #    $ScrabbleRack += $RackCharacterCovert
 #}
-
+ 
 $HowManyLeft =@()
-# Display the Information 
+# Display the Information
 Foreach($Tile in $ScrabbleBagTiles){
        $ConvertToLetter = [Char]$Tile
        $HowManyLeft += ((Get-Variable $ConvertToLetter).Name+" = "+(Get-Variable $ConvertToLetter -ValueOnly).HowMany)
 }
-
+ 
 Write-Output $ScrabbleRack
 Write-Output $HowManyLeft
-
+ 
 Add-Type -AssemblyName  System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+ 
 $ScrabbleForm = New-Object system.Windows.Forms.Form
-$ScrabbleBrush = New-Object Drawing.SolidBrush White
-$scrabblePen = New-Object Drawing.Pen Black
 $ScrabbleForm.Size = New-Object System.Drawing.Size(380,100)
-$ScrabbleFont = new-object System.Drawing.Font("Verdana", 20) 
-$ScrabbleTBrush = New-Object Drawing.SolidBrush Red   
-$ScrabbleGraphics = $ScrabbleForm.CreateGraphics()
 $ScrabbleForm.Width = 380
 $ScrabbleForm.Height = 360
-$LblTile1 = New-Object System.Windows.Forms.Label
-$LblTile1.Height = 40
-$LblTile1.Width = 40
-$LblTile1.Location = New-Object System.Drawing.Size(10,10)
-$LblTile1.BackColor = ([System.Drawing.Color]::White)
-$LblTile1.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$LblTile1.Text = $ScrabbleRack[0]
-$LblTile1.TextAlign = "MiddleCenter"
-$LblTile1.Font = $ScrabbleFont
-$LblTile1.ForeColor = ([System.Drawing.Color]::DarkCyan)
-$LblTile2 = New-Object System.Windows.Forms.Label
-$LblTile2.Height = 40
-$LblTile2.Width = 40
-$LblTile2.Location = New-Object System.Drawing.Size(60,10)
-$LblTile2.BackColor = ([System.Drawing.Color]::White)
-$LblTile2.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$LblTile2.Text = $ScrabbleRack[1]
-$LblTile2.TextAlign = "MiddleCenter"
-$LblTile2.Font = $ScrabbleFont
-$LblTile2.ForeColor = ([System.Drawing.Color]::DarkCyan)
-$LblTile3 = New-Object System.Windows.Forms.Label
-$LblTile3.Height = 40
-$LblTile3.Width = 40
-$LblTile3.Location = New-Object System.Drawing.Size(110,10)
-$LblTile3.BackColor = ([System.Drawing.Color]::White)
-$LblTile3.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$LblTile3.Text = $ScrabbleRack[2]
-$LblTile3.TextAlign = "MiddleCenter"
-$LblTile3.Font = $ScrabbleFont
-$LblTile3.ForeColor = ([System.Drawing.Color]::DarkCyan)
-$LblTile4 = New-Object System.Windows.Forms.Label
-$LblTile4.Height = 40
-$LblTile4.Width = 40
-$LblTile4.Location = New-Object System.Drawing.Size(160,10)
-$LblTile4.BackColor = ([System.Drawing.Color]::White)
-$LblTile4.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$LblTile4.Text = $ScrabbleRack[3]
-$LblTile4.TextAlign = "MiddleCenter"
-$LblTile4.Font = $ScrabbleFont
-$LblTile4.ForeColor = ([System.Drawing.Color]::DarkCyan)
-$LblTile5 = New-Object System.Windows.Forms.Label
-$LblTile5.Height = 40
-$LblTile5.Width = 40
-$LblTile5.Location = New-Object System.Drawing.Size(210,10)
-$LblTile5.BackColor = ([System.Drawing.Color]::White)
-$LblTile5.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$LblTile5.Text = $ScrabbleRack[4]
-$LblTile5.TextAlign = "MiddleCenter"
-$LblTile5.Font = $ScrabbleFont
-$LblTile5.ForeColor = ([System.Drawing.Color]::DarkCyan)
-$LblTile6 = New-Object System.Windows.Forms.Label
-$LblTile6.Height = 40
-$LblTile6.Width = 40
-$LblTile6.Location = New-Object System.Drawing.Size(260,10)
-$LblTile6.BackColor = ([System.Drawing.Color]::White)
-$LblTile6.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$LblTile6.Text = $ScrabbleRack[5]
-$LblTile6.TextAlign = "MiddleCenter"
-$LblTile6.Font = $ScrabbleFont
-$LblTile6.ForeColor = ([System.Drawing.Color]::DarkCyan)
-$LblTile7 = New-Object System.Windows.Forms.Label
-$LblTile7.Height = 40
-$LblTile7.Width = 40
-$LblTile7.Location = New-Object System.Drawing.Size(310,10)
-$LblTile7.BackColor = ([System.Drawing.Color]::White)
-$LblTile7.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$LblTile7.Text = $ScrabbleRack[6]
-$LblTile7.TextAlign = "MiddleCenter"
-$LblTile7.Font = $ScrabbleFont
-$LblTile7.ForeColor = ([System.Drawing.Color]::DarkCyan)
+$ScrabbleForm.Font = new-object System.Drawing.Font("Verdana", 20)
+ 
+$ScrabbleBrush = New-Object Drawing.SolidBrush White
+$scrabblePen = New-Object Drawing.Pen Black
+$ScrabbleTBrush = New-Object Drawing.SolidBrush Red  
+$ScrabbleGraphics = $ScrabbleForm.CreateGraphics()
+ 
+$LblTile1 = New-Object System.Windows.Forms.label
+$LblTile2 = New-Object System.Windows.Forms.label
+$LblTile3 = New-Object System.Windows.Forms.label
+$LblTile4 = New-Object System.Windows.Forms.label
+$LblTile5 = New-Object System.Windows.Forms.label
+$LblTile6 = New-Object System.Windows.Forms.label
+$LblTile7 = New-Object System.Windows.Forms.label
+ 
+ 
+ForEach ($number in 1..7){
+    $varName = "lbltile" + $number
+   
+    $object = Get-Variable -Name $varName -ValueOnly
+ 
+    $object.text = $ScrabbleRack[($number - 1)]
+    $object.TextAlign = "MiddleCenter"
+    $object.ForeColor = ([System.Drawing.Color]::DarkCyan)
+    $object.BackColor = ([System.Drawing.Color]::White)
+    $object.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
+    $object.Height = $height
+    $object.Width = $width
+ 
+    $XLoc = $gap + (($width + $gap) * ($number -1))
+    $object.Location = New-Object System.Drawing.Size($XLoc,$gap)
+ 
+}
+ 
+ 
+ 
 $ScrabbleForm.add_paint(
 {
-$LineV1XStart = 50
-$LineV1YStart = 10
-$LineV1XEnd = 50
-$LineV1YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV1XStart, $LineV1YStart, $LineV1XEnd, $LineV1YEnd)
-$LineH1XStart = 10
-$LineH1YStart = 50
-$LineH1XEnd = 50
-$LineH1YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH1XStart, $LineH1YStart, $LineH1XEnd, $LineH1YEnd)
-$LineV2XStart = 100
-$LineV2YStart = 10
-$LineV2XEnd = 100
-$LineV2YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV2XStart, $LineV2YStart, $LineV2XEnd, $LineV2YEnd)
-$LineH2XStart = 60
-$LineH2YStart = 50
-$LineH2XEnd = 100
-$LineH2YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH2XStart, $LineH2YStart, $LineH2XEnd, $LineH2YEnd)
-$LineV3XStart = 150
-$LineV3YStart = 10
-$LineV3XEnd = 150
-$LineV3YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV3XStart, $LineV3YStart, $LineV3XEnd, $LineV3YEnd)
-$LineH3XStart = 110
-$LineH3YStart = 50
-$LineH3XEnd = 150
-$LineH3YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH3XStart, $LineH3YStart, $LineH3XEnd, $LineH3YEnd) 
-$LineV4XStart = 200
-$LineV4YStart = 10
-$LineV4XEnd = 200
-$LineV4YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV4XStart, $LineV4YStart, $LineV4XEnd, $LineV4YEnd)
-$LineH4XStart = 160
-$LineH4YStart = 50
-$LineH4XEnd = 200
-$LineH4YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH4XStart, $LineH4YStart, $LineH4XEnd, $LineH4YEnd)
-$LineV5XStart = 250
-$LineV5YStart = 10
-$LineV5XEnd = 250
-$LineV5YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV5XStart, $LineV5YStart, $LineV5XEnd, $LineV5YEnd)
-$LineH5XStart = 210
-$LineH5YStart = 50
-$LineH5XEnd = 250
-$LineH5YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH5XStart, $LineH5YStart, $LineH5XEnd, $LineH5YEnd)
-$LineV6XStart = 300
-$LineV6YStart = 10
-$LineV6XEnd = 300
-$LineV6YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV6XStart, $LineV6YStart, $LineV6XEnd, $LineV6YEnd)
-$LineH6XStart = 260
-$LineH6YStart = 50
-$LineH6XEnd = 300
-$LineH6YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH6XStart, $LineH6YStart, $LineH6XEnd, $LineH6YEnd)
-$LineV7XStart = 350
-$LineV7YStart = 10
-$LineV7XEnd = 350
-$LineV7YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineV7XStart, $LineV7YStart, $LineV7XEnd, $LineV7YEnd)
-$LineH7XStart = 310
-$LineH7YStart = 50
-$LineH7XEnd = 350
-$LineH7YEnd = 50
-$ScrabbleGraphics.DrawLine($ScrabblePen, $LineH7XStart, $LineH7YStart, $LineH7XEnd, $LineH7YEnd)
+
+Foreach($vnumber in 1..7){
+    
+    $varpass = "linevert" + $vnumber + "xs" 
+    $setpass = ($gap + $height) + (($height + $gap) * ($vnumber -1))
+    Set-Variable -name $varpass -Value $setpass
+
+    $var1pass = "linevert" + $vnumber + "ys" 
+    Set-Variable -name $var1pass -Value 10
+    
+    $var2pass = "linevert" + $vnumber + "xe" 
+    $set2pass = ($gap + $height) + (($height + $gap) * ($vnumber -1))
+    Set-Variable -name $var2pass -Value $set2pass
+    
+    $var3pass = "linevert" + $vnumber + "ye" 
+    Set-Variable -name $var3pass -Value 50
+    
+    $ScrabbleGraphics.DrawLine($ScrabblePen, (Get-Variable -name ("linevert" + $vnumber + "xs") -ValueOnly), (Get-Variable -name ("linevert" + $vnumber + "ys") -ValueOnly), (Get-Variable -name ("linevert" + $vnumber + "xe") -ValueOnly), (Get-Variable -name ("linevert" + $vnumber + "ye") -ValueOnly))
+}
+
+foreach ($hnumber in 1..7){
+    $hozpass = "linehoz" + $hnumber + "xs" 
+    $valpass = $gap + (($height + $gap) * ($hnumber -1))
+    Set-Variable -name $hozpass -Value $valpass
+
+    $hoz1pass = "linehoz" + $hnumber + "ys" 
+    Set-Variable -name $hoz1pass -Value 50
+ 
+    $hoz2pass = "linehoz" + $hnumber + "xe" 
+    $val2pass = ($gap + $height) + (($height + $gap) * ($hnumber -1))
+    Set-Variable -name $hoz2pass -Value $val2pass
+
+    $hoz3pass = "linehoz" + $hnumber + "ye" 
+    Set-Variable -name $hoz3pass -Value 50
+
+    $ScrabbleGraphics.DrawLine($ScrabblePen, (Get-Variable -name ("linehoz" + $hnumber + "xs") -ValueOnly), (Get-Variable -name ("linehoz" + $hnumber + "ys") -ValueOnly), (Get-Variable -name ("linehoz" + $hnumber + "xe") -ValueOnly), (Get-Variable -name ("linehoz" + $hnumber + "ye") -ValueOnly))
+}
+
 }
 )
 $lbldisplay = New-Object System.Windows.Forms.Label
@@ -250,7 +184,7 @@ $lbldisplay2 = New-Object System.Windows.Forms.Label
 #$counter = 0
 #While($counter -ne 13){
 #    Foreach($Strhash in $HowManyLeft){
-#        $lbldisplay.Text += $Strhash + “`r`n”
+#        $lbldisplay.Text += $Strhash + [Environment]::NewLine
 #        $counter++
 #    }
 #}
