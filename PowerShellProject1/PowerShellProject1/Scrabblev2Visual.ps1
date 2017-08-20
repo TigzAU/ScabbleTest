@@ -203,6 +203,9 @@ $ScrabbleForm.Controls.Add($lbldisplay2)
 
 $nextrndbutton = New-Object System.Windows.Forms.Button
 $nextrndbutton.Add_Click({NextRndUser})
+$nextrndbutton.Text = "Next Tiles"
+$nextrndbutton.Location = New-Object System.Drawing.Size(200,270)
+$nextrndbutton.AutoSize = $true
 $ScrabbleForm.Controls.Add($nextrndbutton)
 
 Function NextRndUser{
