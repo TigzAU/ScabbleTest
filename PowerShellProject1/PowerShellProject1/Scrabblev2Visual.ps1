@@ -91,9 +91,6 @@ Foreach($Tile in $ScrabbleBagTiles){
        $HowManyLeft += ((Get-Variable $ConvertToLetter).Name+" = "+(Get-Variable $ConvertToLetter -ValueOnly).HowMany)
 }
  
-Write-Output $ScrabbleRack
-Write-Output $HowManyLeft
- 
 Add-Type -AssemblyName  System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
  
@@ -132,7 +129,8 @@ ForEach ($number in 1..7){
  
     $XLoc = $gap + (($width + $gap) * ($number -1))
     $object.Location = New-Object System.Drawing.Size($XLoc,$gap)
- 
+
+    $ScrabbleForm.Controls.Add($object)
 }
  
  
@@ -202,11 +200,39 @@ $lbldisplay2.Size = New-Object System.Drawing.Size(100,200)
 $lbldisplay2.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
 $ScrabbleForm.Controls.Add($lbldisplay)
 $ScrabbleForm.Controls.Add($lbldisplay2)
-$ScrabbleForm.Controls.Add($LblTile1)
-$ScrabbleForm.Controls.Add($LblTile2)
-$ScrabbleForm.Controls.Add($LblTile3)
-$ScrabbleForm.Controls.Add($LblTile4)
-$ScrabbleForm.Controls.Add($LblTile5)
-$ScrabbleForm.Controls.Add($LblTile6)
-$ScrabbleForm.Controls.Add($LblTile7)
+
+$nextrndbutton = New-Object System.Windows.Forms.Button
+$nextrndbutton.Add_Click({NextRndUser})
+$ScrabbleForm.Controls.Add($nextrndbutton)
+
+Function NextRndUser{
+    #$UsedTiles = Read-Host "How Many Tiles has been Used?"
+    $NeededTiles = 7
+    $TileExists = $false
+    $ScrabbleBagTiles = @(94) + 65..90
+    Foreach($Scrabble in 1..$NeededTiles){
+    While($TileExists -eq $false){
+           $GrabATile = RandomLetter $ScrabbleBagTiles
+           $TileExists = IsLetterInBag $GrabATile
+    }
+           $RackCharacterCovert = [Char]$GrabATile
+        $ScrabbleRack += "$RackCharacterCovert"
+        $TileExists = $false
+    }
+    ForEach ($newnumber in 1..7){
+    $newvarName = "lbltile" + $newnumber
+    $newobject = Get-Variable -Name $newvarName -ValueOnly
+    $newobject.text = $ScrabbleRack[($newnumber - 1)]
+    }
+    $HowManyLeft =@()
+    # Display the Information
+    Foreach($Tile in $ScrabbleBagTiles){
+           $ConvertToLetter = [Char]$Tile
+           $HowManyLeft += ((Get-Variable $ConvertToLetter).Name+" = "+(Get-Variable $ConvertToLetter -ValueOnly).HowMany)
+    }
+}
+
+Write-Output $ScrabbleRack
+Write-Output $HowManyLeft
+
 $ScrabbleForm.ShowDialog()
