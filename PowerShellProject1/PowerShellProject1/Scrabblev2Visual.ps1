@@ -78,12 +78,6 @@ While($TileExists -eq $false){
     $TileExists = $false
 }
  
-# Create Statement to ensure that my array doesnt exceed 7 items
-#If($ScrabbleRack.Count -ne 7){
-#      $RackCharacterCovert = [Char]$GrabATile
-#    $ScrabbleRack += $RackCharacterCovert
-#}
- 
 $HowManyLeft =@()
 # Display the Information
 Foreach($Tile in $ScrabbleBagTiles){
@@ -179,27 +173,45 @@ foreach ($hnumber in 1..7){
 )
 $lbldisplay = New-Object System.Windows.Forms.Label
 $lbldisplay2 = New-Object System.Windows.Forms.Label
-#$counter = 0
-#While($counter -ne 13){
-#    Foreach($Strhash in $HowManyLeft){
-#        $lbldisplay.Text += $Strhash + [Environment]::NewLine
-#        $counter++
-#    }
-#}
-#While($counter -ne 27){
-#    Foreach($Strhash in $HowManyLeft){
-#        $lbldisplay2.Text += $Strhash + “`r`n”
-#        $counter++
-#    }
-#}
-$lbldisplay.Location = New-Object System.Drawing.Size(10,70)
-$lbldisplay.Size = New-Object System.Drawing.Size(100,200)
+$lbldisplay3 = New-Object System.Windows.Forms.Label
+
+Foreach($tilenumber in $ScrabbleBagTiles){
+	$count++
+	If($count -lt 10){
+		$letter = [Char]$tilenumber
+		$lbldisplay.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+	}Elseif($count -lt 19){
+		$letter = [Char]$tilenumber
+		$lbldisplay2.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+	}Else{
+		
+		$letter = [Char]$tilenumber
+		$lbldisplay3.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+	}
+}
+
+$lbldisplay.Location = New-Object System.Drawing.Size(30,70)
+$lbldisplay.Size = New-Object System.Drawing.Size(100,150)
 $lbldisplay.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
-$lbldisplay2.Location = New-Object System.Drawing.Size(110,70)
-$lbldisplay2.Size = New-Object System.Drawing.Size(100,200)
+$lbldisplay.Font = new-object System.Drawing.Font("Times New", 10)
+$lbldisplay.TextAlign = ([System.Drawing.ContentAlignment]::MiddleCenter)
+
+$lbldisplay2.Location = New-Object System.Drawing.Size(130,70)
+$lbldisplay2.Size = New-Object System.Drawing.Size(100,150)
 $lbldisplay2.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
+$lbldisplay2.Font = new-object System.Drawing.Font("Times New", 10)
+$lbldisplay2.TextAlign = ([System.Drawing.ContentAlignment]::MiddleCenter)
+
+$lbldisplay3.Location = New-Object System.Drawing.Size(230,70)
+$lbldisplay3.Size = New-Object System.Drawing.Size(100,150)
+$lbldisplay3.BorderStyle = ([System.Windows.Forms.BorderStyle]::Fixed3D)
+$lbldisplay3.Font = new-object System.Drawing.Font("Times New", 10)
+$lbldisplay3.TextAlign = ([System.Drawing.ContentAlignment]::MiddleCenter)
+
 $ScrabbleForm.Controls.Add($lbldisplay)
 $ScrabbleForm.Controls.Add($lbldisplay2)
+$ScrabbleForm.Controls.Add($lbldisplay3)
+
 
 $nextrndbutton = New-Object System.Windows.Forms.Button
 $nextrndbutton.Add_Click({NextRndUser})
