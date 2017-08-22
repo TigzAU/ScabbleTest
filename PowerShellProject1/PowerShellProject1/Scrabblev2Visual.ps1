@@ -175,6 +175,7 @@ $lbldisplay = New-Object System.Windows.Forms.Label
 $lbldisplay2 = New-Object System.Windows.Forms.Label
 $lbldisplay3 = New-Object System.Windows.Forms.Label
 
+$count = 0
 Foreach($tilenumber in $ScrabbleBagTiles){
 	$count++
 	If($count -lt 10){
@@ -239,12 +240,23 @@ Function NextRndUser{
     $newobject = Get-Variable -Name $newvarName -ValueOnly
     $newobject.text = $ScrabbleRack[($newnumber - 1)]
     }
-    $HowManyLeft =@()
-    # Display the Information
-    Foreach($Tile in $ScrabbleBagTiles){
-           $ConvertToLetter = [Char]$Tile
-           $HowManyLeft += ((Get-Variable $ConvertToLetter).Name+" = "+(Get-Variable $ConvertToLetter -ValueOnly).HowMany)
-    }
+    $count = 0
+	$lbldisplay.Text = ""
+	$lbldisplay2.Text = ""
+	$lbldisplay3.Text = ""
+	Foreach($tilenumber in $ScrabbleBagTiles){
+		$count++
+		If($count -lt 10){
+			$letter = [Char]$tilenumber
+			$lbldisplay.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+		}Elseif($count -lt 19){
+			$letter = [Char]$tilenumber
+			$lbldisplay2.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+		}Else{
+			$letter = [Char]$tilenumber
+			$lbldisplay3.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+		}
+	}
 }
 
 Write-Output $ScrabbleRack
