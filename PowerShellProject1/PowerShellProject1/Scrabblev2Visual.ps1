@@ -45,8 +45,8 @@ $Q=@{HowMany=1;Score=10}
 $Z=@{HowMany=1;Score=10}
  
 # Function to get a random letter and return a single one
-Function RandomLetter ($ScrabbleBag) {
-       $GrabATile = Get-Random -InputObject $ScrabbleBag
+Function RandomLetter ($Scrabbler) {
+       $GrabATile = Get-Random -InputObject $Scrabbler
        Return $GrabATile
 }
  
@@ -65,12 +65,29 @@ Function IsLetterInBag ($GrabbedTile) {
 #Define an array
 $ScrabbleRack = $null
 $NeededTiles = 7
-# Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
 $ScrabbleBagTiles = @(94) + 65..90
+$ScrabbleBag = @()
+$conversion = @()
+$Start = @()
+
+#Create my ScrabbleBag
+Foreach($conversion in $ScrabbleBagTiles){
+	$start += [char]$conversion
+}
+Foreach($item in $Start){
+	$Quantity = (Get-Variable $item -ValueOnly).HowMany
+	$number = [byte][char]$item
+	Foreach($increment in 1..$Quantity){
+		$ScrabbleBag += $number
+	}
+}
+
+
+# Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
 $TileExists = $false
 Foreach($Scrabble in 1..$NeededTiles){
 While($TileExists -eq $false){
-       $GrabATile = RandomLetter $ScrabbleBagTiles
+       $GrabATile = RandomLetter $ScrabbleBag
        $TileExists = IsLetterInBag $GrabATile
 }
        $RackCharacterCovert = [Char]$GrabATile
@@ -225,10 +242,9 @@ Function NextRndUser{
     #$UsedTiles = Read-Host "How Many Tiles has been Used?"
     $NeededTiles = 7
     $TileExists = $false
-    $ScrabbleBagTiles = @(94) + 65..90
     Foreach($Scrabble in 1..$NeededTiles){
     While($TileExists -eq $false){
-           $GrabATile = RandomLetter $ScrabbleBagTiles
+           $GrabATile = RandomLetter $ScrabbleBag
            $TileExists = IsLetterInBag $GrabATile
     }
            $RackCharacterCovert = [Char]$GrabATile
@@ -259,7 +275,8 @@ Function NextRndUser{
 	}
 }
 
-Write-Output $ScrabbleRack
 Write-Output $HowManyLeft
+Write-Output $ScrabbleBag.count
+Write-Output $ScrabbleRack
 
 $ScrabbleForm.ShowDialog()
