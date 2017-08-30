@@ -22529,8 +22529,8 @@ Foreach($historylist in $Rackhistory){
 
 Function NextRndUser{
     #$UsedTiles = Read-Host "How Many Tiles has been Used?"
-    #$playsound.Play()
-	#Start-Sleep -Seconds 6
+    $playsound.Play()
+	Start-Sleep -Seconds 6
 	$NeededTiles = 7
     $TileExists = $false
 	If($ScrabbleBag.Count -ne 0){
@@ -22580,10 +22580,6 @@ Function NextRndUser{
 	}
 }
 
-Write-Output $HowManyLeft
-Write-Output $ScrabbleBag.count
-Write-Output $ScrabbleRack
-
-#$playsound.Play()
-#Start-Sleep -Seconds 6
+$playsound.Play()
+Start-Sleep -Seconds 6
 $ScrabbleForm.ShowDialog()
