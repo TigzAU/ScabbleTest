@@ -22325,6 +22325,7 @@ $playsound.Stream = ([System.IO.MemoryStream]($sndconv = [System.Convert]::FromB
 
 #Define an array
 $ScrabbleRack = $null
+$Rackhistory = @()
 $NeededTiles = 7
 $ScrabbleBagTiles = @(94) + 65..90
 $ScrabbleBag = 	New-Object System.Collections.ArrayList
@@ -22355,7 +22356,9 @@ Foreach($Scrabble in 1..$NeededTiles){
     $ScrabbleRack += "$RackCharacterCovert"
     $TileExists = $false
 }
- 
+
+$Rackhistory += $ScrabbleRack
+
 $HowManyLeft =@()
 # Display the Information
 Foreach($Tile in $ScrabbleBagTiles){
@@ -22367,9 +22370,8 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $ScrabbleForm = New-Object system.Windows.Forms.Form
-$ScrabbleForm.Size = New-Object System.Drawing.Size(380,100)
-$ScrabbleForm.Width = 380
-$ScrabbleForm.Height = 360
+$ScrabbleForm.Size = New-Object System.Drawing.Size(470,360)
+$ScrabbleForm.FormBorderStyle = "FixedDialog"
 $ScrabbleForm.Font = new-object System.Drawing.Font("Verdana", 20)
 $ScrabbleForm.BackgroundImage = ([System.Drawing.Image]([System.Drawing.Image]::FromStream((New-Object System.IO.MemoryStream(($imgconv2 = [System.Convert]::FromBase64String($imagebg)),0,$imgconv2.Length)))))
 $ScrabbleForm.BackgroundImageLayout = "Stretch"
@@ -22515,6 +22517,16 @@ $nextrndbutton.AutoSize = $true
 $nextrndbutton.Font = new-object System.Drawing.Font("Verdana", 10)
 $ScrabbleForm.Controls.Add($nextrndbutton)
 
+$lblhistory = New-Object System.Windows.Forms.label
+$lblhistory.size = New-Object System.Drawing.Size(80,245)
+$lblhistory.Location = New-Object System.Drawing.Size(345,60)
+$lblhistory.Font = new-object System.Drawing.Font("Verdana", 10)
+$ScrabbleForm.controls.add($lblhistory)
+
+Foreach($historylist in $Rackhistory){
+	$lblhistory.text += $historylist + [Environment]::NewLine
+}
+
 Function NextRndUser{
     #$UsedTiles = Read-Host "How Many Tiles has been Used?"
     #$playsound.Play()
@@ -22534,6 +22546,12 @@ Function NextRndUser{
 			$RackCharacterCovert = [Char]$GrabATile
 			$ScrabbleRack += "$RackCharacterCovert"
 			$TileExists = $false
+			}
+
+			$Rackhistory += $ScrabbleRack
+
+			Foreach($historylist in $Rackhistory){
+				$lblhistory.text += $historylist + [Environment]::NewLine
 			}
 
 			ForEach ($newnumber in 1..7){
