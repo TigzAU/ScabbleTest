@@ -22327,7 +22327,7 @@ $playsound.Stream = ([System.IO.MemoryStream]($sndconv = [System.Convert]::FromB
 $ScrabbleRack = $null
 $NeededTiles = 7
 $ScrabbleBagTiles = @(94) + 65..90
-$ScrabbleBag = @()
+$ScrabbleBag = 	New-Object System.Collections.ArrayList
 $conversion = @()
 $Start = @()
 
@@ -22339,19 +22339,19 @@ Foreach($item in $Start){
 	$Quantity = (Get-Variable $item -ValueOnly).HowMany
 	$number = [byte][char]$item
 	Foreach($increment in 1..$Quantity){
-		$ScrabbleBag += $number
+		$ScrabbleBag.Add($number)
 	}
 }
-
 
 # Loop to combine functions of a random tile and confirm that it exists and send this to my scrabble rack
 $TileExists = $false
 Foreach($Scrabble in 1..$NeededTiles){
-While($TileExists -eq $false){
-       $GrabATile = RandomLetter $ScrabbleBag
-       $TileExists = IsLetterInBag $GrabATile
-}
-       $RackCharacterCovert = [Char]$GrabATile
+	While($TileExists -eq $false){
+		$GrabATile = RandomLetter $ScrabbleBag
+		$TileExists = IsLetterInBag $GrabATile
+	}
+	$ScrabbleBag.Remove($GrabATile)
+	$RackCharacterCovert = [Char]$GrabATile
     $ScrabbleRack += "$RackCharacterCovert"
     $TileExists = $false
 }
@@ -22517,39 +22517,47 @@ $ScrabbleForm.Controls.Add($nextrndbutton)
 
 Function NextRndUser{
     #$UsedTiles = Read-Host "How Many Tiles has been Used?"
-    $playsound.Play()
-	Start-Sleep -Seconds 6
+    #$playsound.Play()
+	#Start-Sleep -Seconds 6
 	$NeededTiles = 7
     $TileExists = $false
-    Foreach($Scrabble in 1..$NeededTiles){
-    While($TileExists -eq $false){
-           $GrabATile = RandomLetter $ScrabbleBag
-           $TileExists = IsLetterInBag $GrabATile
-    }
-           $RackCharacterCovert = [Char]$GrabATile
-        $ScrabbleRack += "$RackCharacterCovert"
-        $TileExists = $false
-    }
-    ForEach ($newnumber in 1..7){
-    $newvarName = "lbltile" + $newnumber
-    $newobject = Get-Variable -Name $newvarName -ValueOnly
-    $newobject.text = $ScrabbleRack[($newnumber - 1)]
-    }
-    $count = 0
-	$lbldisplay.Text = ""
-	$lbldisplay2.Text = ""
-	$lbldisplay3.Text = ""
-	Foreach($tilenumber in $ScrabbleBagTiles){
-		$count++
-		If($count -lt 10){
-			$letter = [Char]$tilenumber
-			$lbldisplay.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
-		}Elseif($count -lt 19){
-			$letter = [Char]$tilenumber
-			$lbldisplay2.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
-		}Else{
-			$letter = [Char]$tilenumber
-			$lbldisplay3.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+	If($ScrabbleBag.Count -ne 0){
+		if($ScrabbleBag.Count -eq 2){
+			$NeededTiles = 2
+		}
+		Foreach($Scrabble in 1..$NeededTiles){
+			While($TileExists -eq $false){
+				$GrabATile = RandomLetter $ScrabbleBag
+				$TileExists = IsLetterInBag $GrabATile
+			}
+			$ScrabbleBag.Remove($GrabATile)
+			$RackCharacterCovert = [Char]$GrabATile
+			$ScrabbleRack += "$RackCharacterCovert"
+			$TileExists = $false
+			}
+
+			ForEach ($newnumber in 1..7){
+			$newvarName = "lbltile" + $newnumber
+			$newobject = Get-Variable -Name $newvarName -ValueOnly
+			$newobject.text = $ScrabbleRack[($newnumber - 1)]
+			}
+			$count = 0
+			$lbldisplay.Text = ""
+			$lbldisplay2.Text = ""
+			$lbldisplay3.Text = ""
+
+			Foreach($tilenumber in $ScrabbleBagTiles){
+				$count++
+				If($count -lt 10){
+					$letter = [Char]$tilenumber
+					$lbldisplay.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+				}Elseif($count -lt 19){
+					$letter = [Char]$tilenumber
+					$lbldisplay2.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+				}Else{
+					$letter = [Char]$tilenumber
+					$lbldisplay3.Text += ((Get-Variable $letter).Name + " = " + (Get-Variable $letter -ValueOnly).HowMany + [Environment]::NewLine)
+			}
 		}
 	}
 }
@@ -22558,6 +22566,6 @@ Write-Output $HowManyLeft
 Write-Output $ScrabbleBag.count
 Write-Output $ScrabbleRack
 
-$playsound.Play()
-Start-Sleep -Seconds 6
+#$playsound.Play()
+#Start-Sleep -Seconds 6
 $ScrabbleForm.ShowDialog()
