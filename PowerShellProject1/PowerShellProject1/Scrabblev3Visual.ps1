@@ -1,6 +1,7 @@
 ﻿$gap = 10
 $width = 40
 $height = 40
+$Rackvalues = @()
  
 <#..
 # Scrabble.ps1
@@ -22354,6 +22355,7 @@ Foreach($Scrabble in 1..$NeededTiles){
 	$ScrabbleBag.Remove($GrabATile)
 	$RackCharacterCovert = [Char]$GrabATile
     $ScrabbleRack += "$RackCharacterCovert"
+	$Rackvalues += $RackCharacterCovert
     $TileExists = $false
 }
 
@@ -22370,7 +22372,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $ScrabbleForm = New-Object system.Windows.Forms.Form
-$ScrabbleForm.Size = New-Object System.Drawing.Size(470,360)
+$ScrabbleForm.Size = New-Object System.Drawing.Size(530,360)
 $ScrabbleForm.FormBorderStyle = "FixedDialog"
 $ScrabbleForm.Font = new-object System.Drawing.Font("Verdana", 20)
 $ScrabbleForm.BackgroundImage = ([System.Drawing.Image]([System.Drawing.Image]::FromStream((New-Object System.IO.MemoryStream(($imgconv2 = [System.Convert]::FromBase64String($imagebg)),0,$imgconv2.Length)))))
@@ -22527,11 +22529,30 @@ Foreach($historylist in $Rackhistory){
 	$lblhistory.text += $historylist + [Environment]::NewLine
 }
 
+$lblvalues = New-Object System.Windows.Forms.label
+$lblvalues.size = New-Object System.Drawing.Size(75,245)
+$lblvalues.Location = New-Object System.Drawing.Size(430,60)
+$lblvalues.BorderStyle = ([System.Windows.Forms.BorderStyle]::none)
+$lblvalues.Font = new-object System.Drawing.Font("Verdana", 10)
+$ScrabbleForm.controls.add($lblvalues)
+
+$icanadd = 0
+Foreach($valuelist in $Rackvalues){
+	$nameme = @()
+	$nameme += (Get-Variable $valuelist -ValueOnly).Score
+	Foreach($namemeitem in $nameme){
+		$icanadd += $namemeitem	 
+	}
+}
+$lblvalues.Text += $icanadd
+$lblvalues.Text += [Environment]::NewLine
+
 Function NextRndUser{
     #$UsedTiles = Read-Host "How Many Tiles has been Used?"
-    $playsound.Play()
-	Start-Sleep -Seconds 6
+    #$playsound.Play()
+	#Start-Sleep -Seconds 6
 	$NeededTiles = 7
+	$Rackvalues = @()
     $TileExists = $false
 	If($ScrabbleBag.Count -ne 0){
 		if($ScrabbleBag.Count -eq 2){
@@ -22545,6 +22566,7 @@ Function NextRndUser{
 			$ScrabbleBag.Remove($GrabATile)
 			$RackCharacterCovert = [Char]$GrabATile
 			$ScrabbleRack += "$RackCharacterCovert"
+			$Rackvalues += $RackCharacterCovert
 			$TileExists = $false
 			}
 
@@ -22553,6 +22575,17 @@ Function NextRndUser{
 			Foreach($historylist in $Rackhistory){
 				$lblhistory.text += $historylist + [Environment]::NewLine
 			}
+
+			$icanadd = 0
+			Foreach($valuelist in $Rackvalues){
+				$nameme = @()
+				$nameme += (Get-Variable $valuelist -ValueOnly).Score
+				Foreach($namemeitem in $nameme){
+					$icanadd += $namemeitem	 
+				}
+			}
+			$lblvalues.Text += $icanadd 
+			$lblvalues.Text += [Environment]::NewLine
 
 			ForEach ($newnumber in 1..7){
 			$newvarName = "lbltile" + $newnumber
@@ -22580,6 +22613,6 @@ Function NextRndUser{
 	}
 }
 
-$playsound.Play()
-Start-Sleep -Seconds 6
+#$playsound.Play()
+#Start-Sleep -Seconds 6
 $ScrabbleForm.ShowDialog()
