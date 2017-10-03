@@ -39,6 +39,7 @@
     <Compile Include="Scrabble.ps1" />
     <Compile Include="Scrabblev2Visual.ps1" />
     <Compile Include="Scrabblev3Visual.ps1" />
+    <Compile Include="Scrabblev4.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
