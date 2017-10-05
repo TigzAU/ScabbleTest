@@ -47,7 +47,7 @@ Function pickxtiles{
 			$rndtile = get-random -InputObject $ScrabbleBag
 			$ScrabbleBag.Remove($rndtile)
 			$numeraltoalpha = [char]$rndtile
-			$tilerack.Add($numeraltoalpha)
+			$tilerack.Add($numeraltoalpha) | Out-Null
 			}
 		Break
 	}
@@ -63,5 +63,22 @@ Foreach($item in $Start){
 		$ScrabbleBag.Add($number) | Out-Null
 	}
 }
-# display those tiles 
+# display those tiles
+														
+
+
 # ask user how many tiles were used and pick that many
+
+
+# start program
+	#remove Scrabble bag start count as its for testing only
+	Write-Output "How many tiles start in bag "$ScrabbleBag.Count 
+pickxtiles
+
+
+
+####################### TEST START #######################
+# Test output TEST Only - remove before prodution - Test output TEST Only
+Write-Output "Tiles in rack "$tilerack
+Write-Output "How many tiles in bag now "$ScrabbleBag.Count 
+####################### TEST END #######################
