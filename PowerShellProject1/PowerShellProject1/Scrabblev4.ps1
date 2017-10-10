@@ -27,12 +27,11 @@ $X=@{HowMany=1;Score=8}
 $Q=@{HowMany=1;Score=10}
 $Z=@{HowMany=1;Score=10}
 # define Variables
-$ScrabbleBag = New-Object System.Collections.ArrayList
 $ScrabbleBagTiles = @(65..90) + 94
-$start = New-Object System.Collections.ArrayList
 $requiredtiles = 7
-$tilerack = New-Object System.Collections.ArrayList
 # define functions
+	
+Function pickxtiles{
 	# pick X tiles function
 		# while $scrabblebag count is > 0
 			# foreach $tile in $requiredtiles
@@ -40,28 +39,12 @@ $tilerack = New-Object System.Collections.ArrayList
 				# remove the tile that was recieved
 				# convert the tile to a alpha character from numeric
 				# return alpha character to array $tilerack
-			# break out of the while loop
-Function pickxtiles{
-	While($ScrabbleBag.Count -gt 0){
-		Foreach($tile in 1..$requiredtiles){
-			$rndtile = get-random -InputObject $ScrabbleBag
-			$ScrabbleBag.Remove($rndtile)
-			$numeraltoalpha = [char]$rndtile
-			$tilerack.Add($numeraltoalpha) | Out-Null
-			}
-		Break
-	}
+			# return the $tilerack
 }
-# create a scrabble bag
-Foreach($conversion in $ScrabbleBagTiles){
-	$start += [char]$conversion
-}
-Foreach($item in $Start){
-	$Quantity = (Get-Variable $item -ValueOnly).HowMany
-	$number = [byte][char]$item
-	Foreach($increment in 1..$Quantity){
-		$ScrabbleBag.Add($number) | Out-Null
-	}
+Function createabag {
+	# create a scrabble bag	function
+	# 
+	
 }
 # display those tiles
 														
@@ -73,6 +56,7 @@ Foreach($item in $Start){
 # start program
 	#remove Scrabble bag start count as its for testing only
 	Write-Output "How many tiles start in bag "$ScrabbleBag.Count 
+createabag $ScrabbleBagTiles
 pickxtiles
 
 
