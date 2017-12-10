@@ -28,7 +28,7 @@ $Q=@{HowMany=1;Score=10}
 $Z=@{HowMany=1;Score=10}
 # defined script level Variables
 $ScrabbleBagTiles = @(65..90) + 94
-$requiredtiles = 1
+$requiredtiles = 7
 $ScrabbleBag = @()
 $tilerack = @()
 # defined functions
@@ -47,8 +47,12 @@ function removetilefrombag($pickedtile,$AlteringBag){
 	# remove a tile from bag function
 		# remove the tile that was recieved
 		# return updated bag
-	$AlteringBag = $AlteringBag -ne $pickedtile
-	Return $AlteringBag
+	#$AlteringBag = @($AlteringBag)
+	#$AlteringBag = $AlteringBag - $pickedtile
+	$ConvertBag = New-Object System.Collections.ArrayList
+	$ConvertBag.AddRange($AlteringBag)
+	$ConvertBag.Remove($pickedtile)
+	Return $ConvertBag
 }
 Function createabag($tilesymbol,$tilequantity,$makebag){
 	# create a scrabble bag	function
@@ -62,12 +66,21 @@ Function createabag($tilesymbol,$tilequantity,$makebag){
 	Return $makebag
 }
 
-
+Function NumericToAlpha($Numberrack){
 # convert the tile to a alpha character from numeric
 # return alpha character to array $tilerack
 # return the $tilerack
-# display those tiles
-														
+$Alpharack = @()
+Foreach($number in $Numberrack){
+	$Alpharack += [Char]$number
+}
+Return $Alpharack
+}														
+
+Function HowManyRequired{
+$Userinput = Read-Host 'How many tiles are required? (Enter to Exit)'
+Return $Userinput
+}
 
 
 # ask user how many tiles were used and pick that many
@@ -82,6 +95,8 @@ foreach($maketile in $ScrabbleBagTiles){
 	$quanityoftile = (Get-Variable $convertedtile -ValueOnly).HowMany
 	$ScrabbleBag = createabag $maketile $quanityoftile $ScrabbleBag
 }
+Function Starttest{
+	While($requiredtiles -ne 0){
 #remove Scrabble bag start count as its for testing only 
 Write-Output "How many tiles start in bag "$ScrabbleBag.Count
 Foreach($burnedvar1 in 1..$requiredtiles){
@@ -90,9 +105,16 @@ Foreach($burnedvar1 in 1..$requiredtiles){
 	$tilerack += $Tilegrab
 }
 
+ 
+$displayrack = NumericToAlpha $tilerack
 
 ####################### TEST START #######################
 # Test output TEST Only - remove before prodution - Test output TEST Only
-Write-Output "Tiles in rack "$tilerack
+Write-Output "Tiles in rack "$displayrack
 Write-Output "How many tiles in bag now "$ScrabbleBag.Count 
+$requiredtiles = HowManyRequired
 ####################### TEST END #######################
+
+}
+	}
+Starttest
